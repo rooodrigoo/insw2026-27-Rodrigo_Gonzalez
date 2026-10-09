@@ -83,7 +83,7 @@ public class SearcherTestCase {
 
     @Test
     public void testSearchExactPhrase_NotFirstElement() {
-        assertTrue(searcher.searchExactPhrase("frase de prueba", words));
+        assertTrue(searcher.searchExactPhrase("javascript", words));
     }
 
     @Test

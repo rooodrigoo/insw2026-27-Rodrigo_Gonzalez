@@ -1,17 +1,17 @@
-import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.beans.Transient;
+import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.example.Calculator;
-
+import com.uem.model.Calculator;
 
 
 public class CalculatorTestCase {
-    
+
+    private static final double DELTA = 0.0001;
     private Calculator calculator;
 
     @BeforeEach
@@ -19,72 +19,77 @@ public class CalculatorTestCase {
         calculator = new Calculator();
     }
 
+    // multiply
     @Test
-    public void TestMultiplicarDosEnteros() {
+    public void testMultiplyNormal() {
         assertEquals(6, calculator.multiply(2, 3));
     }
-     @Test
-    public void TestMultiplicarCeros() {
-        assertEquals(0, calculator.multiply(0, 0));
-    }
+
     @Test
-    public void TestMultiplicarNegativos() {
+    public void testMultiplyConCero() {
+        assertEquals(0, calculator.multiply(0, 5));
+    }
+
+    @Test
+    public void testMultiplyNegativos() {
         assertEquals(6, calculator.multiply(-2, -3));
+        assertEquals(-6, calculator.multiply(-2, 3));
     }
+
+    // concat
     @Test
-    public void TestConcatenarCadenas() {
-       assertEquals("HolaMundo", calculator.concat("Hola", "Mundo"));
+    public void testConcatNormal() {
+        assertEquals("HolaMundo", calculator.concat("Hola", "Mundo"));
     }
 
     @Test
-    public void TestConcatenarNuloa() {
-        assertEquals("empty", calculator.concat("A",""));
+    public void testConcatConNull() {
+        assertEquals(Calculator.EMPTY, calculator.concat(null, "Mundo"));
+        assertEquals(Calculator.EMPTY, calculator.concat("Hola", null));
+        assertEquals("empty", calculator.concat(null, null));
+    }
+
+    // sum
+    @Test
+    public void testSumNormal() {
+        assertEquals(5.0, calculator.sum(2, 3), DELTA);
     }
 
     @Test
-    public void TestSuma(){
-        assertEquals(5, calculator.sum(2, 3));
+    public void testSumNegativos() {
+        assertEquals(-5.0, calculator.sum(-2, -3), DELTA);
+    }
+
+    // discount
+    @Test
+    public void testDiscountValido() {
+        assertEquals(80.0, Calculator.discount(100, 20), DELTA);
     }
 
     @Test
-    public void TestSumaNegativos() {
-        assertEquals(-5, calculator.sum(-2, -3));
+    public void testDiscountLimites() {
+        assertEquals(100.0, Calculator.discount(100, 0), DELTA);
+        assertEquals(0.0, Calculator.discount(100, 100), DELTA);
     }
 
     @Test
-    public void TestDescuento() {
-        assertEquals(80, calculator.discount(100, 20));
+    public void testDiscountMenorQueCero() {
+        assertThrows(IllegalArgumentException.class, () -> Calculator.discount(100, -1));
     }
 
     @Test
-    public void TestDescuentoCero() {
-        assertEquals(100, calculator.discount(100, 0));
+    public void testDiscountMayorQueCien() {
+        assertThrows(IllegalArgumentException.class, () -> Calculator.discount(100, 101));
     }
-    
-    @Test 
-    public void TestDescuentoCien(){
-        assertEquals(0, calculator.discount(100,100));
+
+    // calculateTotal
+    @Test
+    public void testCalculateTotal() {
+        assertEquals(60.0, calculator.calculateTotal(List.of(10.0, 20.0, 30.0)), DELTA);
     }
 
     @Test
-    public void TestDescuentoInvalidoMenorQue0() {
-        assertThrows(IllegalArgumentException.class, () -> calculator.discount(100, -20));
-    }
-
-    @Test
-    public void TestDescuentoInvalidoMayorQue100() {
-        assertThrows(IllegalArgumentException.class, () -> calculator.discount(100, 120));
-    }
-
-    @Test
-    public void TestCalcularTotal() {
-        List<Double> amounts = List.of(10.0, 20.0, 30.0);
-        assertEquals(60.0, calculator.calculateTotal(amounts));
-    }
-
-    @Test
-    public void TestCalcularTotalVacio() {
-        List<Double> amounts = List.of();
-        assertEquals(0.0, calculator.calculateTotal(amounts));
+    public void testCalculateTotalListaVacia() {
+        assertEquals(0.0, calculator.calculateTotal(List.of()), DELTA);
     }
 }

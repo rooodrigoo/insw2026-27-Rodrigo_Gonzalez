@@ -1,13 +1,15 @@
 package com.uem.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Article {
 
     private static final Calculator CALCULATOR = new Calculator();
 
-    private String nombre;
-    private int cantidad;
-    private double precio;
-    private double descuento;
+    @SerializedName("name") private String nombre;
+    @SerializedName("quantity") private int cantidad;
+    @SerializedName("unitPrice") private double precio;
+    @SerializedName("discount") private double descuento;
 
     public Article() {
     }

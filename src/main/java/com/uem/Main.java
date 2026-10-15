@@ -1,5 +1,14 @@
 package com.uem;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.uem.model.Article;
+import com.uem.model.Order;
 import com.uem.model.Searcher;
 import com.uem.model.Calculator;
 import com.uem.model.Article;
@@ -7,9 +16,9 @@ import com.uem.model.Order;
 
 public class Main {
     public static void main(String[] args) {
-        Order order = new Order("PEDIDO-001");
-        order.addArticle(new Article("Ratón", 2, 25.0, 5.0));
-        order.addArticle(new Article("Monitor", 1, 150.0, 15.0));
-        System.out.println(order);
+       
+        Gson gson = new Gson();
+    
+
     }
 }

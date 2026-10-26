@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.uem.controller.OrderController;
 import com.uem.model.Order;
+import com.uem.view.OrderView;
 
 public class Main {
 
@@ -33,5 +35,8 @@ public class Main {
         for (Order order : orders) {
             log.debug("Loaded order: {}", order.getId());
         }
+        // Inicializar MVC
+            OrderView view = new OrderView();
+            new OrderController(view, orders);
     }
 }

@@ -28,4 +28,5 @@ public class ArticleTest {
         assertEquals(90.0, article.getDiscountedAmount(), DELTA);
     }
 
+    
 }

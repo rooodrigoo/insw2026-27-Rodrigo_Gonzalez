@@ -12,6 +12,7 @@ public class OrderView extends JFrame {
 
     public OrderView() {
         setTitle("Order Management");
+        setIconImage(new ImageIcon("Software\\universidad\\src\\main\\resources\\app.png").getImage());
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
@@ -40,14 +41,14 @@ public class OrderView extends JFrame {
         for (Article a : order.getArticles()) {
             sb.append(a.getNombre())
               .append(" x").append(a.getCantidad())
-              .append(" @ ").append(a.getPrecio()).append("$")
+              .append(" ").append(a.getPrecio()).append("€")
               .append(" (discount ").append(a.getDescuento()).append("%)")
-              .append(" = ").append(a.getDiscountedAmount()).append("$\n");
+              .append(" = ").append(a.getDiscountedAmount()).append("€\n");
         }
-        sb.append("Gross total: ").append(order.getGrossTotal()).append("$\n");
-        sb.append("Discounted total: ").append(order.getDiscountedTotal()).append("$\n");
-        sb.append("Gross total (USD): ").append(order.getGrossTotal() * rate).append("$\n");
-        sb.append("Discounted total (USD): ").append(order.getDiscountedTotal() * rate).append("$\n");
+        sb.append("Gross total: ").append(order.getGrossTotal()).append("€\n");
+        sb.append("Discounted total: ").append(order.getDiscountedTotal()).append("€\n");
+        sb.append("Gross total (USD): ").append(order.getGrossTotal() * rate).append("€\n");
+        sb.append("Discounted total (USD): ").append(order.getDiscountedTotal() * rate).append("€\n");
         resultArea.setText(sb.toString());
     }
 

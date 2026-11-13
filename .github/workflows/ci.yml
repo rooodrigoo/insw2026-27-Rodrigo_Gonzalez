@@ -44,7 +44,7 @@ jobs:
       - name: Prepare JAR
         run: |
           VERSION=${{ steps.version.outputs.version }}
-          mv target/*.jar target/swing-app-${VERSION}.jar
+          mv target/universidad-${VERSION}.jar target/swing-app-${VERSION}.jar
 
       - name: Create tag and release
         uses: softprops/action-gh-release@v2

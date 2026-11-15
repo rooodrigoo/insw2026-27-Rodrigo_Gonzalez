@@ -88,3 +88,29 @@ Si deseas contribuir a este proyecto, por favor sigue estos pasos:
 ## Licencia
 
 Este proyecto está bajo la Licencia MIT - consulta el archivo LICENSE para más detalles.
+---
+
+## Tipo de cambio (EUR / USD / GBP)
+
+La aplicación muestra los pedidos en euros, dólares o libras, según lo que se elija en el desplegable junto al botón **Search**. Al cambiar de moneda, el pedido mostrado se actualiza automáticamente.
+
+### Cómo se obtiene el tipo de cambio
+
+- Clase: `com.uem.service.ExchangeRateService`.
+- **Servicio externo:** API gratuita y sin clave de [Frankfurter](https://frankfurter.dev): `https://api.frankfurter.dev/v1/latest?base=EUR&symbols=USD,GBP`.
+- **Cuándo:** cada vez que se ejecuta la aplicación (`Main` llama a `refresh()` antes de abrir la ventana).
+- **Cómo:** `HttpClient` de Java 17 (sin dependencias extra) y Gson para leer la respuesta JSON. Timeout de 5 s.
+- **Tipo de cambio no constante:** no se guarda en el código; solo hay unos valores por defecto como último recurso.
+
+### Qué pasa si falla la API o no hay internet
+
+1. Si la consulta funciona, los valores se guardan en `~/.orders-app/rates.properties` (carpeta del usuario).
+2. Si falla, se usa **el último valor conocido** guardado en ese fichero.
+3. Si nunca se ha podido consultar, se usan los valores por defecto del código (USD 1.162976, GBP 0.87).
+
+Debajo de cada pedido, en USD o GBP, se indica el tipo usado y su origen (`live rate`, `last known rate` o `default value`).
+
+### Otros detalles
+
+- El icono de la ventana (`src/main/resources/app.png`) y `orders.json` se cargan desde el classpath, para que funcionen dentro del JAR de la release.
+- Ejecución: `java -jar swing-app-<version>.jar` o doble clic sobre el JAR descargado de la release.
